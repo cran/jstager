@@ -28,8 +28,13 @@ WebAPIを利用して，J-STAGEに公開されている情報を取得するた�
 
 ## インストール方法
 
-現在，jstagerパッケージはGitHubでのみ提供されています。
-以下のコマンドを使用してインストールできます。
+jstagerパッケージはCRANからインストールできます。
+
+``` r
+install.packages("jstager")
+```
+
+開発版はGitHubからインストールできます。
 
 ``` r
 # install.packages("devtools")
@@ -54,7 +59,7 @@ d1
 #> #   開始件数 <dbl>, 件数 <dbl>
 #> 
 #> $entry
-#> # A tibble: 17 × 25
+#> # A tibble: 18 × 25
 #>    `巻号一覧表示名(英)` `巻号一覧表示名(日)` `目次一覧URL(英)` `目次一覧URL(日)`
 #>    <chr>                <chr>                <chr>             <chr>            
 #>  1 "Vol. 64 (2020) , N… "Vol. 64 (2020) , N… https://www.jsta… https://www.jsta…
@@ -74,19 +79,30 @@ d1
 #> 15 "Vol. 67 (2023) , N… "Vol. 67 (2023) , N… https://www.jsta… https://www.jsta…
 #> 16 "Vol. 67 (2023) , N… "Vol. 67 (2023) , N… https://www.jsta… https://www.jsta…
 #> 17 "Vol. 68 (2024) , N… "Vol. 68 (2024) , N… https://www.jsta… https://www.jsta…
+#> 18 "Vol. 68 (2024) , N… "Vol. 68 (2024) , N… https://www.jsta… https://www.jsta…
 #> # ℹ 21 more variables: `Print ISSN` <chr>, `Online ISSN` <chr>,
 #> #   `学協会名(英)` <chr>, `学協会名(日)` <chr>, `学協会URL(英)` <chr>,
 #> #   `学協会URL(日)` <chr>, 資料コード <chr>, `資料名(英)` <chr>,
-#> #   `資料名(日)` <chr>, 巻 <dbl>, 分冊 <chr>, 号 <dbl>, 開始ページ <dbl>,
+#> #   `資料名(日)` <chr>, 巻 <dbl>, 分冊 <dbl>, 号 <dbl>, 開始ページ <dbl>,
 #> #   終了ページ <chr>, 発行年 <dbl>, システムコード <chr>, システム名 <chr>,
 #> #   サブフィード名 <chr>, サブフィードURL <chr>, サブフィードID <chr>,
 #> #   最新公開日 <chr>
 ```
 
+| 引数        | 内容                                         |
+|-------------|----------------------------------------------|
+| pubyearfrom | 発行年の始まり（西暦4桁）                    |
+| pubyearto   | 発行年の終わり（西暦4桁）                    |
+| material    | 資料名（完全一致）                           |
+| issn        | ISSN（完全一致，XXXX-XXXX形式）              |
+| cdjournal   | 資料コード                                   |
+| volorder    | 結果の並び順（1:巻，分冊，号の昇順，2:降順） |
+| lang        | 表頭を日本語にする（“ja”）か否か             |
+
 ### 論文検索結果の取得
 
 ``` r
-d2 <- get_jstage_articles(author = "山中 伸弥")
+d2 <- get_jstage_articles(text = "象の卵")
 d2
 #> $metadata
 #> # A tibble: 1 × 10
@@ -97,33 +113,51 @@ d2
 #> #   開始件数 <dbl>, 件数 <dbl>
 #> 
 #> $entry
-#> # A tibble: 17 × 25
+#> # A tibble: 14 × 25
 #>    `論文タイトル(英)`             `論文タイトル(日)` `書誌URL(英)` `書誌URL(日)`
 #>    <chr>                          <chr>              <chr>         <chr>        
-#>  1 ""                             iPS細胞研究の進展  https://www.… https://www.…
-#>  2 ""                             iPS細胞研究の進展  https://www.… https://www.…
-#>  3 ""                             PNL1 iPS細胞の可…  https://www.… https://www.…
-#>  4 ""                             iPS細胞を用いた創… https://www.… https://www.…
-#>  5 "1. Possibility of IPS Cells … 1．iPS細胞の可能…  https://www.… https://www.…
-#>  6 "1. Possibility of IPS Cells … 1．iPS細胞の可能…  https://www.… https://www.…
-#>  7 "New Era of Medicine with iPS… iPS細胞がひらく新… https://www.… https://www.…
-#>  8 ""                             iPS細胞で広がる創… https://www.… https://www.…
-#>  9 ""                             iPS細胞研究の進展  https://www.… https://www.…
-#> 10 ""                             １．iPS 細胞研究…  https://www.… https://www.…
-#> 11 ""                             日本で開発された…  https://www.… https://www.…
-#> 12 "Establishment of iPS Cell an… 人工多能性幹細胞…  https://www.… https://www.…
-#> 13 ""                             多能性幹細胞の標…  https://www.… https://www.…
-#> 14 "Surgical treatments for trau… 当院における外傷…  https://www.… https://www.…
-#> 15 "Clinical Study of Bipolar Fe… 変形性股関節症に…  https://www.… https://www.…
-#> 16 "A Follow-up Study of Unicomp… 術後5年以上経過し… https://www.… https://www.…
-#> 17 "Mechanism of post-transcript… 転写産物および蛋…  https://www.… https://www.…
+#>  1 ""                             1. アトピー性皮膚… https://www.… https://www.…
+#>  2 ""                             2. in vivoでの食…  https://www.… https://www.…
+#>  3 ""                             「生卵に乗る」 : … https://www.… https://www.…
+#>  4 "Clarification of piezo-drive… ピエゾアクチュエ…  https://www.… https://www.…
+#>  5 ""                             破壊の材料通有性…  https://www.… https://www.…
+#>  6 "Diagnostic significance of 2… 卵白凍結乾燥粉末…  https://www.… https://www.…
+#>  7 "SAFETY OF INFLUENZA VACCINAT… 当施設でインフル…  https://www.… https://www.…
+#>  8 "Comparative Studies on the F… 3種の食〓性テント… https://www.… https://www.…
+#>  9 "Small pools on the sides of … 林道脇の水たまり…  https://www.… https://www.…
+#> 10 "STUDIS ON THE METHOD OF JUDG… 蛔虫駆除の臨床的…  https://www.… https://www.…
+#> 11 "Experimental Studies on the … 性steroidsの向性…  https://www.… https://www.…
+#> 12 "Analysis of 100 Women with I… 随証漢方療法で生…  https://www.… https://www.…
+#> 13 ""                             生活・健康         https://www.… https://www.…
+#> 14 ""                             第33回日本輪床細…  https://www.… https://www.…
 #> # ℹ 21 more variables: `著者名(英)` <chr>, `著者名(日)` <chr>,
 #> #   資料コード <chr>, `資料名(英)` <chr>, `資料名(日)` <chr>,
-#> #   `Print ISSN` <chr>, `Online ISSN` <chr>, 巻 <dbl>, 分冊 <chr>, 号 <chr>,
-#> #   開始ページ <chr>, 終了ページ <chr>, 発行年 <dbl>, JOI <chr>, DOI <chr>,
+#> #   `Print ISSN` <chr>, `Online ISSN` <chr>, 巻 <chr>, 分冊 <dbl>, 号 <chr>,
+#> #   開始ページ <dbl>, 終了ページ <chr>, 発行年 <dbl>, JOI <chr>, DOI <chr>,
 #> #   システムコード <chr>, システム名 <chr>, サブフィード名 <chr>,
 #> #   サブフィードURL <chr>, サブフィードID <chr>, 最新公開日 <chr>
 ```
+
+| 引数        | 内容                                                                                         |
+|-------------|----------------------------------------------------------------------------------------------|
+| pubyearfrom | 発行年の始まり（西暦4桁）                                                                    |
+| pubyearto   | 発行年の終わり（西暦4桁）                                                                    |
+| material    | 資料名（部分一致）                                                                           |
+| article     | 論文タイトル（部分一致）                                                                     |
+| author      | 著者名（部分一致，姓と名の間にスペースを入れる）                                             |
+| affil       | 著者所属機関（部分一致）                                                                     |
+| keyword     | キーワード（部分一致）                                                                       |
+| abst        | 抄録（部分一致）                                                                             |
+| text        | 全文（部分一致）                                                                             |
+| issn        | ISSN（完全一致，XXXX-XXXX形式）                                                              |
+| cdjournal   | 資料コード                                                                                   |
+| sortflg     | 結果の並び順（1:スコア順，2:巻，分冊，号，開始ページの降順），`material`か`issn`の指定が必要 |
+| vol         | 巻（完全一致）                                                                               |
+| no          | 号（完全一致）                                                                               |
+| start       | 検索結果の中から取得を開始する件数                                                           |
+| count       | 取得件数の上限（デフォルトは1000）                                                           |
+| sep         | 複数の著者名の間の区切り文字（デフォルトは改行）                                             |
+| lang        | 表頭を日本語にする（“ja”）か否か                                                             |
 
 一度に取得できるデータは最大1,000件です。
 1,000件を超えるデータを取得する場合は，しばらく時間をおいてから，次のように引数
@@ -133,21 +167,24 @@ d2
 d3 <- get_jstage_articles(article = "iPS", start = 1001)
 ```
 
-### 論文のメタデータの取得
-
-``` r
-d4 <- jstage_metadata(paste0("https://doi.org/", d2$entry$DOI[8]))
-d4$keywords
-#> [1] "iPS細胞"                    "創薬"                      
-#> [3] "ドラッグ・リポジショニング" "個別化医療"                
-#> [5] "先制医療"
-```
-
 ### 取得したデータをExcelに保存
 
 ``` r
 write_jstage_to_excel(d2, "results.xlsx")
 ```
+
+### 論文のメタデータの取得
+
+``` r
+d4 <- jstage_metadata(d2$entry$DOI[8], pdf_path = ".", bibtex_path = ".")
+```
+
+<a href="https://www.zotero.org/" target="_blank">Zotero</a>
+ユーザーは，J-STAGE の情報を
+<a href="https://www.zotero.org/download/connectors"
+target="_blank">Zotero Connector</a>
+経由で登録する際に，著者名の姓と名が逆になるという問題を経験したことがあるはずです。
+この問題は BibTeX を経由することで回避できます。
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"
 target="_blank">J-STAGE</a>

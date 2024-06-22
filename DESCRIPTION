@@ -1,7 +1,7 @@
 Package: jstager
 Type: Package
 Title: Retrieve Information Published on J-STAGE
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person(given = "Takeshi",
            family = "Nishimura",
@@ -21,9 +21,9 @@ Config/testthat/edition: 3
 URL: https://github.com/takeshinishimura/jstager
 BugReports: https://github.com/takeshinishimura/jstager/issues
 NeedsCompilation: no
-Packaged: 2024-06-09 06:38:40 UTC; takeshinishimura
+Packaged: 2024-06-22 05:12:00 UTC; takeshinishimura
 Author: Takeshi Nishimura [aut, cph, cre]
     (<https://orcid.org/0000-0003-1761-4300>)
 Maintainer: Takeshi Nishimura <takenishi@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-06-10 17:30:02 UTC
+Date/Publication: 2024-06-22 05:30:07 UTC
