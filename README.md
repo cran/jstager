@@ -89,15 +89,15 @@ d1
 #> #   最新公開日 <chr>
 ```
 
-| 引数        | 内容                                         |
-|-------------|----------------------------------------------|
-| pubyearfrom | 発行年の始まり（西暦4桁）                    |
-| pubyearto   | 発行年の終わり（西暦4桁）                    |
-| material    | 資料名（完全一致）                           |
-| issn        | ISSN（完全一致，XXXX-XXXX形式）              |
-| cdjournal   | 資料コード                                   |
-| volorder    | 結果の並び順（1:巻，分冊，号の昇順，2:降順） |
-| lang        | 表頭を日本語にする（“ja”）か否か             |
+| 引数          | 内容                                         |
+|---------------|----------------------------------------------|
+| `pubyearfrom` | 発行年の始まり（西暦4桁）                    |
+| `pubyearto`   | 発行年の終わり（西暦4桁）                    |
+| `material`    | 資料名（完全一致）                           |
+| `issn`        | ISSN（完全一致，XXXX-XXXX形式）              |
+| `cdjournal`   | 資料コード                                   |
+| `volorder`    | 結果の並び順（1:巻，分冊，号の昇順，2:降順） |
+| `lang`        | 表頭を日本語にする（“ja”）か否か             |
 
 ### 論文検索結果の取得
 
@@ -138,26 +138,26 @@ d2
 #> #   サブフィードURL <chr>, サブフィードID <chr>, 最新公開日 <chr>
 ```
 
-| 引数        | 内容                                                                                         |
-|-------------|----------------------------------------------------------------------------------------------|
-| pubyearfrom | 発行年の始まり（西暦4桁）                                                                    |
-| pubyearto   | 発行年の終わり（西暦4桁）                                                                    |
-| material    | 資料名（部分一致）                                                                           |
-| article     | 論文タイトル（部分一致）                                                                     |
-| author      | 著者名（部分一致，姓と名の間にスペースを入れる）                                             |
-| affil       | 著者所属機関（部分一致）                                                                     |
-| keyword     | キーワード（部分一致）                                                                       |
-| abst        | 抄録（部分一致）                                                                             |
-| text        | 全文（部分一致）                                                                             |
-| issn        | ISSN（完全一致，XXXX-XXXX形式）                                                              |
-| cdjournal   | 資料コード                                                                                   |
-| sortflg     | 結果の並び順（1:スコア順，2:巻，分冊，号，開始ページの降順），`material`か`issn`の指定が必要 |
-| vol         | 巻（完全一致）                                                                               |
-| no          | 号（完全一致）                                                                               |
-| start       | 検索結果の中から取得を開始する件数                                                           |
-| count       | 取得件数の上限（デフォルトは1000）                                                           |
-| sep         | 複数の著者名の間の区切り文字（デフォルトは改行）                                             |
-| lang        | 表頭を日本語にする（“ja”）か否か                                                             |
+| 引数          | 内容                                                                                         |
+|---------------|----------------------------------------------------------------------------------------------|
+| `pubyearfrom` | 発行年の始まり（西暦4桁）                                                                    |
+| `pubyearto`   | 発行年の終わり（西暦4桁）                                                                    |
+| `material`    | 資料名（部分一致）                                                                           |
+| `article`     | 論文タイトル（部分一致）                                                                     |
+| `author`      | 著者名（部分一致，姓と名の間にスペースを入れる）                                             |
+| `affil`       | 著者所属機関（部分一致）                                                                     |
+| `keyword`     | キーワード（部分一致）                                                                       |
+| `abst`        | 抄録（部分一致）                                                                             |
+| `text`        | 全文（部分一致）                                                                             |
+| `issn`        | ISSN（完全一致，XXXX-XXXX形式）                                                              |
+| `cdjournal`   | 資料コード                                                                                   |
+| `sortflg`     | 結果の並び順（1:スコア順，2:巻，分冊，号，開始ページの降順），`material`か`issn`の指定が必要 |
+| `vol`         | 巻（完全一致）                                                                               |
+| `no`          | 号（完全一致）                                                                               |
+| `start`       | 検索結果の中から取得を開始する件数                                                           |
+| `count`       | 取得件数の上限（デフォルトは1000）                                                           |
+| `sep`         | 複数の著者名の間の区切り文字（デフォルトは改行）                                             |
+| `lang`        | 表頭を日本語にする（“ja”）か否か                                                             |
 
 一度に取得できるデータは最大1,000件です。
 1,000件を超えるデータを取得する場合は，しばらく時間をおいてから，次のように引数
@@ -167,7 +167,7 @@ d2
 d3 <- get_jstage_articles(article = "iPS", start = 1001)
 ```
 
-### 取得したデータをExcelに保存
+### 取得したデータをExcel形式で保存
 
 ``` r
 write_jstage_to_excel(d2, "results.xlsx")
@@ -185,6 +185,72 @@ d4 <- jstage_metadata(d2$entry$DOI[8], pdf_path = ".", bibtex_path = ".")
 target="_blank">Zotero Connector</a>
 経由で登録する際に，著者名の姓と名が逆になるという問題を経験したことがあるはずです。
 この問題は BibTeX を経由することで回避できます。
+
+### 論文の引用文献リストの取得
+
+``` r
+d5 <- jstage_references("10.1241/johokanri.49.63", depth = 3)
+d5
+#> # A tibble: 105 × 4
+#>    citing_doi               cited_doi                article_link          depth
+#>    <chr>                    <chr>                    <chr>                 <dbl>
+#>  1 10.1241/johokanri.49.63  10.1241/johokanri.42.682 http://www.jstage.js…     1
+#>  2 10.1241/johokanri.49.63  10.1241/johokanri.46.536 http://www.jstage.js…     1
+#>  3 10.1241/johokanri.49.63  10.1241/johokanri.48.149 http://www.jstage.js…     1
+#>  4 10.1241/johokanri.49.63  10.1241/johokanri.49.69  http://www.jstage.js…     1
+#>  5 10.1241/johokanri.49.63  10.18919/jkg.56.4_188    https://www.jstage.j…     1
+#>  6 10.1241/johokanri.42.682 10.1241/johokanri.41.343 http://www.jstage.js…     2
+#>  7 10.1241/johokanri.42.682 10.11291/jpla1956.44.137 http://www.jstage.js…     2
+#>  8 10.1241/johokanri.42.682 10.18919/jkg.49.6_295    https://www.jstage.j…     2
+#>  9 10.1241/johokanri.42.682 10.11291/jpla1956.44.266 http://www.jstage.js…     2
+#> 10 10.1241/johokanri.42.682 10.1241/johokanri.41.445 http://www.jstage.js…     2
+#> # ℹ 95 more rows
+```
+
+<a href="https://takeshinishimura.github.io/jstager/references.html"
+target="_blank">引用文献リストの可視化</a>
+
+リスト取得後に次のコードを実行すると可視化できます。
+
+``` r
+library(dplyr)
+library(visNetwork)
+library(htmlwidgets)
+
+edges <- d5 |>
+  mutate(cited_doi = ifelse(is.na(cited_doi), 
+                            paste0("non-DOI ", row_number()), 
+                            cited_doi)) |>
+  select(from = cited_doi, to = citing_doi)
+
+nodes <- data.frame(id = unique(c(edges$from, edges$to))) |>
+  left_join(
+    d5 |>
+      select(cited_doi, article_link) |>
+      na.omit() |>
+      distinct(),
+    by = c("id" = "cited_doi")
+  ) |>
+  mutate(
+    group = ifelse(!is.na(article_link), "J-Stage", "Outside J-Stage"),
+    title = paste0("https://doi.org/", id)
+  )
+nodes$group[nodes$id == d5$citing_doi[1]] <- "J-Stage"
+
+v <- visNetwork(nodes, edges, width = "100%") |>
+  visNodes(shape = "box", shadow = TRUE) |>
+  visEdges(arrows = 'to', shadow = TRUE) |>
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) |>
+  visLegend() |>
+  visEvents(selectNode = "function(nodes) {
+    var nodeId = nodes.nodes[0];
+    var url = this.body.data.nodes.get(nodeId).title;
+    if (url !== 'NA') {
+      window.open(url, '_blank');
+    }
+  }") |>
+  visLayout(randomSeed = 100)
+```
 
 Powered by <a href="https://www.jstage.jst.go.jp/browse/-char/ja"
 target="_blank">J-STAGE</a>

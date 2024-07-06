@@ -1,3 +1,11 @@
+# jstager 0.0.5
+
+* Minor Improvements.
+
+# jstager 0.0.4
+
+* Added the ability to scrape all references from a specified article web page.
+
 # jstager 0.0.3
 
 * Minor Improvements.
